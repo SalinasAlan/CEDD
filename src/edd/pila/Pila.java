@@ -37,6 +37,11 @@ public class Pila
         this.tope = tope;
     }
 
+    /**
+     * Método empty.
+     *
+     * @return boolean, true si esta vacia y false si no lo está.
+     */
     public boolean empty()
     {
         if (tope == -1)
@@ -47,10 +52,11 @@ public class Pila
             return false;
         }
     }
-    
+
     /**
-     * Método pull
-     * @return boolean 
+     * Método pull.
+     *
+     * @return boolean, true si esta llena y false si no lo está.
      */
     public boolean full()
     {
@@ -64,8 +70,9 @@ public class Pila
     }
 
     /**
-     * Método stackTop
-     * @return regresa un char, ultimo valor en la pila
+     * Método stackTop.
+     *
+     * @return regresa un char, el valor del tope en la pila.
      */
     public char stackTop()
     {
@@ -80,9 +87,10 @@ public class Pila
     }
 
     /**
-     * Método push, ingresa datos a la pila
-     * @param c es el dato que se ingresara a la pila
-     * @return un String acerca del estado de la operación en la pila
+     * Método push, ingresa datos a la pila.
+     *
+     * @param c es el dato que se ingresara a la pila.
+     * @return un String acerca del estado de la operación en la pila.
      */
     public String push(char c)
     {
@@ -97,9 +105,9 @@ public class Pila
     }
 
     /**
-     * Método pop, elimina elementos de la pila
+     * Método pop, elimina elementos de la pila.
      *
-     * @return un char que es el dato que esta en tope
+     * @return un char que es el dato que está en tope.
      */
     public char pop()
     {
