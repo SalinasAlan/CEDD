@@ -24,9 +24,7 @@ public class Prb
         String mS = mL.readLine();
         char mCaracteres[] = mS.toCharArray();
 
-        for (int i = 0; i < mCaracteres.length; i++)
-        {
-            mE.pos(mCaracteres);
-        }
+        mE.pos(mCaracteres);
+
     }
 }
