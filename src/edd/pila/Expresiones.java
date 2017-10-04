@@ -17,20 +17,29 @@ public class Expresiones
      * a*b-(c+d) => ab*cd+-
      *
      * @param arr es un arreglo te tipo char.
-     * @return la Pila de las variables.
      */
-    public Pila pos(char arr[])
+    public void pos(char arr[])
     {
-        Pila op = new Pila(arr);
-        Pila var = new Pila(arr);
+        int mTOp = 0;
+        int mTVar = 0;
 
         for (int i = 0; i < arr.length; i++)
         {
-            //Ingresa las variables.
-            if (arr[i] > 'a' || arr[i] < 'z')
+            if (arr[i] == '+' || arr[i] == '-' || arr[i] == '*' || arr[i] == '/' || arr[i] == '(' || arr[i] == ')')
             {
-                var.push(arr[i]);
+                mTOp++;
             }
+            if (arr[i] >= (char) 97 && arr[i] <= (char) 122)
+            {
+                mTVar++;
+            }
+        }
+
+        Pila op = new Pila(mTOp);
+        Pila var = new Pila(mTOp + mTVar);
+
+        for (int i = 0; i < arr.length; i++)
+        {
             //Ingresa la resta.
             if (arr[i] == '-')
             {
@@ -99,7 +108,11 @@ public class Expresiones
             {
                 op.push(arr[i]);
             }
-
+            //Ingresa las variables.
+            if (arr[i] >= (char) 97 && arr[i] <= (char) 122)
+            {
+                var.push(arr[i]);
+            }
         }
 
         //Al finalizar la división de los términos, todo se pasa a la pila de las variables 
@@ -115,9 +128,6 @@ public class Expresiones
                 op.pop();
             }
             mT--;
-        } while (mT == -1);
-
-        return var;
+        } while (mT == 0);
     }
-
 }
