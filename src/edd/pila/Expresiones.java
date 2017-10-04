@@ -16,13 +16,13 @@ public class Expresiones
     {
         Pila op = new Pila(arr);
         Pila var = new Pila(arr);
-        
+
         for (int i = 0; i < arr.length; i++)
         {
             //Ingresa las variables
             if (arr[i] > 'a' || arr[i] < 'z')
             {
-                var.push(arr[i]);           
+                var.push(arr[i]);
             }
             //Ingresa la resta
             if (arr[i] == '-')
@@ -34,6 +34,9 @@ public class Expresiones
                         var.push(op.pop());
                         op.push(arr[i]);
                     }
+                } else
+                {
+                    op.push(arr[i]);
                 }
             }
             //Ingresa la multiplicacion
@@ -45,10 +48,56 @@ public class Expresiones
                     {
                         op.push(arr[i]);
                     }
+                    if (op.stackTop() == '+')
+                    {
+                        op.push(arr[i]);
+                    }
+                } else
+                {
+                    op.push(arr[i]);
                 }
             }
-            
+            //Ingresa la división
+            if (arr[i] == '/')
+            {
+                if (!op.empty())
+                {
+                    if (op.stackTop() == '*')
+                    {
+                        var.push(op.pop());
+                        op.push(arr[i]);
+                    }
+                } else
+                {
+                    op.push(arr[i]);
+                }
+            }
+            //Ingresa paréntesis inicial
+            if (arr[i] == '(')
+            {
+                if (!op.empty())
+                {
+                    if (op.stackTop() == '*')
+                    {
+                        var.push(op.pop());
+                        op.push(arr[i]);
+                    }
+                } else
+                {
+                    op.push(arr[i]);
+                }
+            }
+            //Ingresa paréntesis final
+            if (arr[i] == ')')
+            {
+                if (!op.empty())
+                {
+
+                }
+            }
+
         }
+
     }
 
 }
