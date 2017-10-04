@@ -15,10 +15,10 @@ public class Pila
     private int tope;
     private char arr[];
 
-    public Pila(char[] arr)
+    public Pila(int n)
     {
         this.tope = -1;
-        this.arr = arr;
+        arr = new char[n];
     }
 
     /**
