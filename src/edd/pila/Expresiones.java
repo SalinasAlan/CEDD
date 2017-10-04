@@ -20,24 +20,8 @@ public class Expresiones
      */
     public void pos(char arr[])
     {
-        int mTOp = 0;
-        int mTVar = 0;
-
-        //Calcula el tamaño para los arreglos de las pilas de las operaciones y variables.
-        for (int i = 0; i < arr.length; i++)
-        {
-            if (arr[i] == '+' || arr[i] == '-' || arr[i] == '*' || arr[i] == '/' || arr[i] == '(' || arr[i] == ')')
-            {
-                mTOp++;
-            }
-            if (arr[i] >= (char) 97 && arr[i] <= (char) 122)
-            {
-                mTVar++;
-            }
-        }
-
-        Pila op = new Pila(mTOp);
-        Pila var = new Pila(mTOp + mTVar);
+        Pila op = new Pila(arr.length);
+        Pila var = new Pila(arr.length);
 
         for (int i = 0; i < arr.length; i++)
         {
@@ -49,6 +33,10 @@ public class Expresiones
                     if (op.stackTop() == '*')
                     {
                         var.push(op.pop());
+                        op.push(arr[i]);
+                    }
+                    if (op.stackTop() == (char)40)
+                    {
                         op.push(arr[i]);
                     }
                 } else
@@ -66,6 +54,10 @@ public class Expresiones
                         op.push(arr[i]);
                     }
                     if (op.stackTop() == '+')
+                    {
+                        op.push(arr[i]);
+                    }
+                    if (op.stackTop() == (char)40)
                     {
                         op.push(arr[i]);
                     }
@@ -90,13 +82,16 @@ public class Expresiones
                 }
             }
             //Ingresa paréntesis inicial.
-            if (arr[i] == '(')
+            if (arr[i] == (char) 40)
             {
                 if (!op.empty())
                 {
                     if (op.stackTop() == '*')
                     {
                         var.push(op.pop());
+                        op.push(arr[i]);
+                    } else
+                    {
                         op.push(arr[i]);
                     }
                 } else
@@ -105,7 +100,7 @@ public class Expresiones
                 }
             }
             //Ingresa paréntesis final.
-            if (arr[i] == ')')
+            if (arr[i] == (char) 41)
             {
                 op.push(arr[i]);
             }
@@ -114,21 +109,37 @@ public class Expresiones
             {
                 var.push(arr[i]);
             }
+            //Ingresa la suma.
+            if (arr[i] == '+')
+            {
+                if (!op.empty())
+                {
+                    if (op.stackTop() == '*')
+                    {
+                        var.push(op.pop());
+                        op.push(arr[i]);
+                    } else
+                    {
+                        op.push(arr[i]);
+                    }
+                } else
+                {
+                    op.push(arr[i]);
+                }
+            }
         }
 
         //Al finalizar la división de los términos, todo se pasa a la pila de las variables 
         //excepto los paréntesis.
-        int mT = op.getTope();
-        do
+        while (op.getTope() != -1)
         {
-            if (op.stackTop() != '(' || op.stackTop() != ')')
-            {
-                var.push(op.pop());
-            } else
+            if (op.stackTop() == (char) 40 || op.stackTop() == (char) 41)
             {
                 op.pop();
+            } else
+            {
+                var.push(op.pop());
             }
-            mT--;
-        } while (mT == 0);
+        } 
     }
 }
