@@ -38,6 +38,22 @@ public class Pila
     }
 
     /**
+     * @return the arr
+     */
+    public char[] getArr()
+    {
+        return arr;
+    }
+
+    /**
+     * @param arr the arr to set
+     */
+    public void setArr(char[] arr)
+    {
+        this.arr = arr;
+    }
+        
+    /**
      * Método empty.
      *
      * @return boolean, true si esta vacia y false si no lo está.
@@ -103,7 +119,7 @@ public class Pila
             return "Dato insertado";
         }
     }
-
+    
     /**
      * Método pop, elimina elementos de la pila.
      *
