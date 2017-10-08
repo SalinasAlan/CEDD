@@ -23,8 +23,8 @@ public class Prb
         System.out.println("Ingrese la expresión");
         String mS = mL.readLine();
         char mCaracteres[] = mS.toCharArray();
-
-        mE.pos(mCaracteres);
-
+        
+        System.out.println(mE.pos(mCaracteres));
+        System.out.println(mE.pos2(mS));
     }
 }
