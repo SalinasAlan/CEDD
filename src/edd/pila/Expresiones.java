@@ -17,6 +17,7 @@ public class Expresiones
      * a*b-(c+d) => ab*cd+-
      *
      * @param arr es un arreglo te tipo char.
+     * @return el arreglo de tipo char.
      */
     public char[] pos(char arr[])
     {
@@ -105,7 +106,7 @@ public class Expresiones
             {
                 if (!op.empty())
                 {
-                    if (op.stackTop() == '*')
+                    if (op.stackTop() == '*' || op.stackTop() == '/')
                     {
                         var.push(op.pop());
                         op.push(arr[i]);
@@ -153,6 +154,7 @@ public class Expresiones
     /**
      *
      * @param s
+     * @return el arreglo de tipo char.
      */
     public char[] pos2(String s)
     {
