@@ -92,21 +92,13 @@ public class Pila
      */
     public char stackTop()
     {
-        if (empty() == true)
-        {
-            System.out.println("La pila esta vacia");
-            return 0;
-        } else
-        {
-            return arr[tope];
-        }
+        return arr[tope];
     }
 
     /**
      * Método push, ingresa datos a la pila.
-     *
      * @param c es el dato que se ingresara a la pila.
-     * @return un String acerca del estado de la operación en la pila.
+     * @return mensaje de sobre el estado de la acción.
      */
     public String push(char c)
     {
@@ -115,7 +107,7 @@ public class Pila
             return "La pila esta llena";
         } else
         {
-            arr[++tope] = c;
+        arr[++tope] = c;
             return "Dato insertado";
         }
     }
@@ -123,16 +115,10 @@ public class Pila
     /**
      * Método pop, elimina elementos de la pila.
      *
-     * @return un char que es el dato que está en tope.
+     * @return un char que es el dato eliminado que está en tope.
      */
     public char pop()
     {
-        if (empty())
-        {
-            return ' ';
-        } else
-        {
-            return arr[tope--];
-        }
+        return arr[tope--];
     }
 }
