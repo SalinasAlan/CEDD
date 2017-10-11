@@ -13,151 +13,14 @@ public class Expresiones
 {
 
     /**
-     * Método pos que convierte una expresión normal a una expresion pos.
-     * a*b-(c+d) => ab*cd+-
+     * Método pos que ordena una exoresion en posfija a+b*c-d => abc*+d-
      *
-     * @param arr es un arreglo te tipo char.
+     * @param s cadena tipo String que resive
      * @return el arreglo de tipo char.
      */
-    public char[] pos(char arr[])
+    public char[] pos(String s)
     {
-        Pila op = new Pila(arr.length);
-        Pila var = new Pila(arr.length);
 
-        for (int i = 0; i < arr.length; i++)
-        {
-            //Ingresa la suma.
-            if (arr[i] == '+')
-            {
-                if (!op.empty())
-                {
-                    if (op.stackTop() == '*' || op.stackTop() == '/' || op.stackTop() == '-' || op.stackTop() == '+')
-                    {
-                        var.push(op.pop());
-                        op.push(arr[i]);
-                    } else
-                    {
-                        op.push(arr[i]);
-                    }
-                } else
-                {
-                    op.push(arr[i]);
-                }
-            }
-            //Ingresa la resta.
-            if (arr[i] == '-')
-            {
-                if (!op.empty())
-                {
-                    if (op.stackTop() == '*' || op.stackTop() == '/' || op.stackTop() == '-' || op.stackTop() == '+')
-                    {
-                        var.push(op.pop());
-                        op.push(arr[i]);
-                    }
-                    if (op.stackTop() == (char) 40)
-                    {
-                        op.push(arr[i]);
-                    }
-                } else
-                {
-                    op.push(arr[i]);
-                }
-            }
-            //Ingresa la multiplicacion.
-            if (arr[i] == '*')
-            {
-                if (!op.empty())
-                {
-                    if (op.stackTop() == '*' || op.stackTop() == '/' || op.stackTop() == (char) 40)
-                    {
-                        op.push(arr[i]);
-                    }
-                    if (op.stackTop() == '-' || op.stackTop() == '+')
-                    {
-                        op.push(arr[i]);
-                    }
-                } else
-                {
-                    op.push(arr[i]);
-                }
-
-            }
-            //Ingresa la división.
-            if (arr[i] == '/')
-            {
-                if (!op.empty())
-                {
-                    if (op.stackTop() == '*' || op.stackTop() == '/' || op.stackTop() == (char) 40)
-                    {
-                        var.push(op.pop());
-                        op.push(arr[i]);
-                    }
-                    if (op.stackTop() == '-' || op.stackTop() == '+')
-                    {
-                        op.push(arr[i]);
-                    }
-                } else
-                {
-                    op.push(arr[i]);
-                }
-            }
-            //Ingresa paréntesis inicial.
-            if (arr[i] == (char) 40)
-            {
-                if (!op.empty())
-                {
-                    if (op.stackTop() == '*' || op.stackTop() == '/')
-                    {
-                        var.push(op.pop());
-                        op.push(arr[i]);
-                    } else
-                    {
-                        op.push(arr[i]);
-                    }
-                } else
-                {
-                    op.push(arr[i]);
-                }
-            }
-            //Ingresa paréntesis final.
-            if (arr[i] == (char) 41)
-            {
-                op.push(arr[i]);
-            }
-            //Ingresa las variables.
-            if (arr[i] >= (char) 97 && arr[i] <= (char) 122)
-            {
-                var.push(arr[i]);
-            }
-
-        }
-
-        //Al finalizar la división de los términos, todo se pasa a la pila de las variables 
-        //excepto los paréntesis.
-        while (op.getTope() != -1)
-        {
-            if (op.stackTop() == (char) 40 || op.stackTop() == (char) 41)
-            {
-                op.pop();
-            } else
-            {
-                var.push(op.pop());
-            }
-        }
-        return var.getArr();
-    }
-
-    
-    
-    
-    
-    /**
-     *
-     * @param s
-     * @return el arreglo de tipo char.
-     */
-    public char[] pos2(String s)
-    {
         Pila operadores = new Pila(s.length());
         Pila variables = new Pila(s.length());
 
@@ -168,44 +31,61 @@ public class Expresiones
                 variables.push(s.charAt(i));
             } else if (!operadores.empty())
             {
+                boolean mB = false;
                 switch (s.charAt(i))
                 {
                     case (char) 40:
-                        if (operadores.stackTop() == '*' || operadores.stackTop() == '/')
-                        {
-                            variables.push(operadores.pop());
-                            operadores.push(s.charAt(i));
-                        } else
-                        {
-                            operadores.push(s.charAt(i));
-                        }
+                        operadores.push(s.charAt(i));
                         break;
                     case (char) 41:
-                        operadores.push(s.charAt(i));
+                        while (operadores.stackTop() != '(')
+                        {
+                            variables.push(operadores.pop());
+                        }
+                        operadores.pop();
                         break;
                     case '+':
                     case '-':
-                        if (operadores.stackTop() == '*' || operadores.stackTop() == '/' || operadores.stackTop() == '-' || operadores.stackTop() == '+')
+                        do
                         {
-                            variables.push(operadores.pop());
-                            operadores.push(s.charAt(i));
-                        } else
-                        {
-                            operadores.push(s.charAt(i));
-                        }
+                            if (!operadores.empty())
+                            {
+                                if (operadores.stackTop() == '*' || operadores.stackTop() == '/' || operadores.stackTop() == '-' || operadores.stackTop() == '+')
+                                {
+                                    variables.push(operadores.pop());
+                                } else
+                                {
+                                    operadores.push(s.charAt(i));
+                                    mB = true;
+                                }
+                            } else
+                            {
+                                operadores.push(s.charAt(i));
+                                mB = true;
+                            }
+                        } while (mB == false);
                         break;
-
                     case '/':
                     case '*':
-                        if (operadores.stackTop() == '*' || operadores.stackTop() == '/' )
+                        do
                         {
-                            variables.push(operadores.pop());
-                            operadores.push(s.charAt(i));
-                        }
-                        if (operadores.stackTop() == '-' || operadores.stackTop() == '+' || operadores.stackTop() == (char) 40)
-                        {
-                            operadores.push(s.charAt(i));
-                        }
+                            if (!operadores.empty())
+                            {
+                                if (operadores.stackTop() == '*' || operadores.stackTop() == '/')
+                                {
+                                    variables.push(operadores.pop());
+                                }
+                                if (operadores.empty() || operadores.stackTop() == '-' || operadores.stackTop() == '+' || operadores.stackTop() == (char) 40)
+                                {
+                                    operadores.push(s.charAt(i));
+                                    mB = true;
+                                }
+                            } else
+                            {
+                                operadores.push(s.charAt(i));
+                                mB = true;
+                            }
+                        } while (mB = false);
                         break;
                 }
             } else
@@ -224,7 +104,7 @@ public class Expresiones
                 variables.push(operadores.pop());
             }
         }
-        
+
         return variables.getArr();
     }
 }
