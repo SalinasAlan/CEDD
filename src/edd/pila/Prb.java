@@ -22,9 +22,6 @@ public class Prb
         Expresiones mE = new Expresiones();
         System.out.println("Ingrese la expresión");
         String mS = mL.readLine();
-        char mCaracteres[] = mS.toCharArray();
-        
-        System.out.println(mE.pos(mCaracteres));
-        System.out.println(mE.pos2(mS));
+        System.out.println(mE.pos(mS));
     }
 }
