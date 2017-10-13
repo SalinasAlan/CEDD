@@ -22,6 +22,11 @@ public class Prb
         Expresiones mE = new Expresiones();
         System.out.println("Ingrese la expresión");
         String mS = mL.readLine();
-        System.out.println(mE.pos(mS));
+
+        System.out.println("\nLa expresion postfija es...");
+        mE.pos(mS);
+        System.out.println("");
+//        mE.operaciones(mS.length());
+        
     }
 }
