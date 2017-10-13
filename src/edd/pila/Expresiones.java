@@ -5,6 +5,9 @@
  */
 package edd.pila;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 /**
  *
  * @author Salinas
@@ -12,13 +15,14 @@ package edd.pila;
 public class Expresiones
 {
 
+    private Pila aux;
+
     /**
      * Método pos que ordena una exoresion en posfija a+b*c-d => abc*+d-
      *
      * @param s cadena tipo String que resive
-     * @return el arreglo de tipo char.
      */
-    public char[] pos(String s)
+    public void pos(String s)
     {
 
         Pila operadores = new Pila(s.length());
@@ -105,6 +109,19 @@ public class Expresiones
             }
         }
 
-        return variables.getArr();
+        aux = variables;
+
+        System.out.println(variables.getArr());
+    }
+
+    public void operaciones(int lenght)
+    {
+        BufferedReader mL = new BufferedReader(new InputStreamReader(System.in));
+        PilaNumerica operaciones = new PilaNumerica(lenght);
+        do
+        {
+            operaciones.push(aux.pop());
+        } while (!aux.empty());
+
     }
 }
