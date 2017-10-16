@@ -6,6 +6,7 @@
 package edd.pila;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
@@ -14,8 +15,6 @@ import java.io.InputStreamReader;
  */
 public class Expresiones
 {
-
-    private Pila aux;
 
     /**
      * Método pos que ordena una exoresion en posfija a+b*c-d => abc*+d-
@@ -27,12 +26,14 @@ public class Expresiones
 
         Pila operadores = new Pila(s.length());
         Pila variables = new Pila(s.length());
+        Pila aux = new Pila(s.length());
 
         for (int i = 0; i < s.length(); i++)
         {
             if (Character.isLetter(s.charAt(i)))
             {
                 variables.push(s.charAt(i));
+                aux.push(s.charAt(i));
             } else if (!operadores.empty())
             {
                 boolean mB = false;
@@ -44,7 +45,9 @@ public class Expresiones
                     case (char) 41:
                         while (operadores.stackTop() != '(')
                         {
-                            variables.push(operadores.pop());
+                            char mPop = operadores.pop();
+                            variables.push(mPop);
+                            aux.push(mPop);
                         }
                         operadores.pop();
                         break;
@@ -56,7 +59,9 @@ public class Expresiones
                             {
                                 if (operadores.stackTop() == '*' || operadores.stackTop() == '/' || operadores.stackTop() == '-' || operadores.stackTop() == '+')
                                 {
-                                    variables.push(operadores.pop());
+                                    char mPop = operadores.pop();
+                                    variables.push(mPop);
+                                    aux.push(mPop);
                                 } else
                                 {
                                     operadores.push(s.charAt(i));
@@ -77,7 +82,9 @@ public class Expresiones
                             {
                                 if (operadores.stackTop() == '*' || operadores.stackTop() == '/')
                                 {
-                                    variables.push(operadores.pop());
+                                    char mPop = operadores.pop();
+                                    variables.push(mPop);
+                                    aux.push(mPop);
                                 }
                                 if (operadores.empty() || operadores.stackTop() == '-' || operadores.stackTop() == '+' || operadores.stackTop() == (char) 40)
                                 {
@@ -102,26 +109,86 @@ public class Expresiones
         {
             if (operadores.stackTop() == (char) 40 || operadores.stackTop() == (char) 41)
             {
+
                 operadores.pop();
             } else
             {
-                variables.push(operadores.pop());
+                char mPop = operadores.pop();
+                variables.push(mPop);
+                aux.push(mPop);
             }
         }
 
-        aux = variables;
+        int mR = operacionesPos(s.length(), variables);
+        System.out.println("El resultado es: " + mR);
 
-        System.out.println(variables.getArr());
+        System.out.println("\nLa expresion postfija es: ");
+        while (!aux.empty())
+        {
+            char mPop = aux.pop();
+            System.out.println(mPop);
+        }
     }
 
-    public void operaciones(int lenght)
+    public int operacionesPos(int mLength, Pila aux)
     {
         BufferedReader mL = new BufferedReader(new InputStreamReader(System.in));
-        PilaNumerica operaciones = new PilaNumerica(lenght);
+        Pila mAux2 = new Pila(mLength);
+        PilaNumerica mOperaciones = new PilaNumerica(mLength);
+
         do
         {
-            operaciones.push(aux.pop());
+            mAux2.push(aux.pop());
         } while (!aux.empty());
 
+        for (int i = 0; i < mLength; i++)
+        {
+
+            if (mAux2.getTope() != -1)
+            {
+                char mPop = mAux2.pop();
+                int mAuxPopOP;
+                int mResultado;
+                if (Character.isLetter(mPop))
+                {
+                    try
+                    {
+                        System.out.println("¿Que valor numerico tiene: " + mPop + "?");
+                        int mLeer = Integer.parseInt(mL.readLine());
+                        mOperaciones.push(mLeer);
+                    } catch (IOException ex)
+                    {
+                        System.out.println("No se aceptan letras");
+                    }
+                } else
+                {
+                    switch (mPop)
+                    {
+                        case '+':
+                            mAuxPopOP = mOperaciones.pop();
+                            mResultado = mOperaciones.pop() + mAuxPopOP;
+                            mOperaciones.push(mResultado);
+                            break;
+                        case '-':
+                            mAuxPopOP = mOperaciones.pop();
+                            mResultado = mOperaciones.pop() - mAuxPopOP;
+                            mOperaciones.push(mResultado);
+                            break;
+                        case '*':
+                            mAuxPopOP = mOperaciones.pop();
+                            mResultado = mOperaciones.pop() * mAuxPopOP;
+                            mOperaciones.push(mResultado);
+                            break;
+                        case '/':
+                            mAuxPopOP = mOperaciones.pop();
+                            mResultado = mOperaciones.pop() / mAuxPopOP;
+                            mOperaciones.push(mResultado);
+                            break;
+                    }
+                }
+            }
+        }
+
+        return mOperaciones.stackTop();
     }
 }
