@@ -9,13 +9,13 @@ package edd.listas;
  *
  * @author Salinas
  */
-public class Alumno
+public class Alumno //Nodo Alumno
 {
 
-    private String mNombre;
-    private int mProm;
-    private int mNoControl;
-    private Alumno mSig;
+    protected String mNombre;
+    protected int mProm;
+    protected int mNoControl;
+    protected Alumno mSig;
 
     public Alumno(String mNombre, int mProm, int mNoControl)
     {
