@@ -14,6 +14,27 @@ public class Lista //se comporta como una Pila
 
     private Alumno mTope;
 
+    public Lista()
+    {
+        this.mTope = null;
+    }
+
+    /**
+     * @return the mTope
+     */
+    public Alumno getmTope()
+    {
+        return mTope;
+    }
+
+    /**
+     * @param mTope the mTope to set
+     */
+    public void setmTope(Alumno mTope)
+    {
+        this.mTope = mTope;
+    }
+    
     public boolean empty()
     {
         return mTope == null;
@@ -49,4 +70,5 @@ public class Lista //se comporta como una Pila
             mAux = mAux.getmSig();
         }
     }
+    
 }
